@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const routers = require('./routes/routes');
 const app = express();
 
+require('./config/db-config');
 //Middlewares to read the body sent as request
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
