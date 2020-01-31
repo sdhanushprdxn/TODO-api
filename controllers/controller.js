@@ -238,7 +238,8 @@ module.exports = {
       const upobj = {};
       if (req.body.date) upobj.date = req.body.date;
       if (req.body.status) upobj.status = req.body.status;
-      if (upobj) res.send({ message: 'nothing to update' });
+      if (Object.keys(upobj).length === 0)
+        return res.send({ message: 'nothing to update' });
       const updateNote = await post.findOneAndUpdate(
         {
           $and: [
