@@ -222,12 +222,10 @@ module.exports = {
           .required(),
         date: Joi.date()
           .min(`${year}-${month + 1}-${day}`)
-          .iso()
-          .required(),
-        status: Joi.string()
-          .min(4)
-          .required()
+          .iso(),
+        status: Joi.string().min(4)
       });
+
       const { error } = await validatePostSchema.validate({
         subject: req.body.subject,
         date: req.body.date,
@@ -236,6 +234,10 @@ module.exports = {
       if (error)
         return res.status(400).json({ result: error.details[0].message });
 
+      const upobj = {};
+      if (req.body.date) upobj.date = req.body.date;
+      if (req.body.status) upobj.status = req.body.status;
+
       const updateNote = await post.findOneAndUpdate(
         {
           $and: [
@@ -243,7 +245,7 @@ module.exports = {
             { subject: req.body.subject }
           ]
         },
-        { $set: { date: req.body.date, status: req.body.status } },
+        { $set: upobj },
         { new: true }
       );
       if (updateNote) return res.status(201).send({ status: 'updated' });
