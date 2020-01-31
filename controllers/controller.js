@@ -157,7 +157,7 @@ module.exports = {
           .required(),
         date: Joi.date()
           .min(`${year}-${month + 1}-${day}`)
-          .iso(),
+          .iso(), //date format set to iso 8601
         status: Joi.string().min(4)
       });
       const { error } = await validatePostSchema.validate({
@@ -222,7 +222,7 @@ module.exports = {
           .required(),
         date: Joi.date()
           .min(`${year}-${month + 1}-${day}`)
-          .iso(),
+          .iso(), //date format set to iso 8601
         status: Joi.string().min(4)
       });
 
@@ -238,7 +238,7 @@ module.exports = {
       const upobj = {};
       if (req.body.date) upobj.date = req.body.date;
       if (req.body.status) upobj.status = req.body.status;
-
+      if (upobj) res.send({ message: 'nothing to update' });
       const updateNote = await post.findOneAndUpdate(
         {
           $and: [
