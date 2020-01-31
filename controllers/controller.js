@@ -234,6 +234,7 @@ module.exports = {
       if (error)
         return res.status(400).json({ result: error.details[0].message });
 
+      // avoid null in update
       const upobj = {};
       if (req.body.date) upobj.date = req.body.date;
       if (req.body.status) upobj.status = req.body.status;
